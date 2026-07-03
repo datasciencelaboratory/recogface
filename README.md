@@ -65,7 +65,7 @@ Devido ao isolamento do container, a imagem de cadastro deve estar **dentro da p
 1. Coloque a foto desejada na raiz do projeto (ex: `allan.jpg`).
 2. Execute o comando `add` da CLI:
    ```bash
-   docker compose exec recogface-app recogface add --name "Nome da Pessoa" --image "allan.jpg"
+   docker compose exec recogface-app recogface add --name "Nome da Pessoa" --image "imagem.jpg"
    ```
 
 *Caso a imagem contenha mais de uma face, a CLI exibirá um aviso e registrará automaticamente a maior face encontrada.*
