@@ -1,0 +1,37 @@
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: recogface-qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    restart: always
+
+  recogface-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: recogface-app
+    depends_on:
+      - qdrant
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - QDRANT_HOST=qdrant
+      - QDRANT_PORT=6333
+    volumes:
+      # Map the local .X11-unix folder (which allows Snap-installed Docker to bypass sandbox restrictions)
+      - ./.X11-unix:/tmp/.X11-unix
+      - .:/app
+    devices:
+      - "/dev/video0:/dev/video0"
+    ipc: host # Enables memory sharing for X11 GUI speed and stability
+    stdin_open: true
+    tty: true
+    restart: always
+    command: tail -f /dev/null
+
+volumes:
+  qdrant_data:
